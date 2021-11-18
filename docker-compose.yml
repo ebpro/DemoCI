@@ -1,0 +1,25 @@
+services:
+  app:
+    build: .
+    image: bruno/democi
+    depends_on:
+      - postgres
+    networks:
+      - datanet
+    environment:
+      POSTGRES_USER: ${PG_USER:-demodba}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-secret}
+
+  postgres:
+    restart: always
+    image: postgres:14
+    environment:
+      POSTGRES_USER: ${PG_USER:-demodba}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-secret}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+#    ports:
+#      - "5432:5432"
+    networks:
+      - datanet
+
